@@ -1,23 +1,23 @@
 #API LARAVEL LISTA DE TAREFA
 
-##User history
-- Criar uma conta para o usuario
-- o usurio precisa logar a conta caso contrario sera negado acesso a criação ou a edição de tarefas
-- O usuario logado poderá ver todas tarefas
-- O usuario poderá criar, editar ou excluir somente suas tarefas
+##User story
+- Criar uma conta para o usuário
+- o usuário precisará logar a conta caso contrário será negado acesso a criação ou a edição de tarefas
+- O usuário logado poderá ver todas tarefas
+- O usuário poderá criar, editar ou excluir somente suas tarefas
 
-###Como usar
-clone esse repositorio.
-Para subir os container precisará ter Docker instalado em sua maquina.
+### Como usar
+clone esse repositório.
+Para subir os container precisará ter Docker instalado em sua máquina.
 
 execute o comando 
 ```bash
     ./vendor/bin/sail up
 ```
 
-##Criação de usuario
-Metodo **POST** ``http://127.0.0.1:80/api/auth/register``
-passe como parametro um **nome** **email** **password**
+## Criação de usuário
+Método **POST** ``http://127.0.0.1:80/api/auth/register``
+passe como parâmetro um **nome** **email** **password**
 Exemplo:
 ```json
 {
@@ -39,10 +39,10 @@ Se tudo der certo o retorno será o status 200 como o token
 ## SESSION LOGED
 Para acessar as rotas protegidas você precisará configurar a **Autorization** com o ``Brarer Token`` no Headers
 
-Com a session ative agora voce poderá acessar as rotas protecidas pelo middleware do Sanctum
+Com a session ative agora você poderá acessar as rotas protegidas pelo middleware do Sanctum
 
 ### ```POST``
-- ``store`` - Esse metodo criar um registro na tabela task
+- ``store`` - Esse método criar um registro na tabela task
 
 Esse metodo tem como fillable os campos ``title``, ``user_id``,``text`` você precisa insieie
 
@@ -97,6 +97,7 @@ Se tudo der certo o retorn será o registro
 ```
 - Criar as polices para validar se o usuario autenticado pode deletar ou atualizar task
 - Conectar ao front para primeiro teste
+
 
 
 
