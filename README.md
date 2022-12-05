@@ -44,7 +44,7 @@ Com a session ative agora você poderá acessar as rotas protegidas pelo middlew
 ### ```POST``
 - ``store`` - Esse método criar um registro na tabela task
 
-Esse metodo tem como fillable os campos ``title``, ``user_id``,``text`` você precisa insieie
+Esse método tem como fillable os campos ``title``, ``user_id``,``text`` você precisa inserir no body
 
 route ``http://127.0.0.1:80/api/store``
   
@@ -63,11 +63,11 @@ Se tudo der certo o retorn será o registro
 ```
 
 ### ```PUT``  
-- ``update`` - Esse metodo atualiza um registro na tabela task
+- ``update`` - Esse método atualiza um registro na tabela task
 
 route ``http://127.0.0.1:80/api/update/{id}``
   
-Se tudo der certo o retorn será o registro atualizad
+Se tudo der certo o retorn, o registro atualizado
 
 ```json
 {
@@ -82,7 +82,7 @@ Se tudo der certo o retorn será o registro atualizad
 ```
 
 ### ```DEL``
-- ``destroy`` - Esse metodo deleta um registro na tabela task
+- ``destroy`` - Esse método irá deletar um registro na tabela task
 
 
 route ``http://127.0.0.1:80/api/delete/{id}``
@@ -95,8 +95,9 @@ Se tudo der certo o retorn será o registro
 }
 
 ```
-- Criar as polices para validar se o usuario autenticado pode deletar ou atualizar task
+- Criar as polices para validar se o usuário autenticado pode deletar ou atualizar task
 - Conectar ao front para primeiro teste
+
 
 
 
