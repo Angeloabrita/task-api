@@ -95,6 +95,8 @@ Se tudo der certo o retorn será o registro
 }
 
 ```
+
+## TO-DO
 - Criar as polices para validar se o usuário autenticado pode deletar ou atualizar task
 - Conectar ao front para primeiro teste
 
