@@ -1,6 +1,6 @@
-#API LARAVEL LISTA DE TAREFA
+# API LARAVEL LISTA DE TAREFA
 
-##User story
+## User story
 - Criar uma conta para o usuário
 - o usuário precisará logar a conta caso contrário será negado acesso a criação ou a edição de tarefas
 - O usuário logado poderá ver todas tarefas
