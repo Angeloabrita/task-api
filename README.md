@@ -28,7 +28,12 @@ Copie o modelo e gere uma nova ``.ENV``
 cp .env.example .env
 sail artisan key:generate
 ```
+O ``.ENV`` precisa conter esses atributos ```bash
+WWWGROUP=1000
+WWWUSER=1000 ``` caso contrário ocorrerá erro ao gerar os build com ``compose up``
 
+
+```senão ocorrerá erro ao gerar o 
 Teste para ver se o Docker está rodando
 
 ```bash
