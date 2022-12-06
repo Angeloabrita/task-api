@@ -6,28 +6,59 @@
 - O usuário logado poderá ver todas tarefas
 - O usuário poderá criar, editar ou excluir somente suas tarefas
 
-### Como usar
-clone esse repositório.
-Para subir os container precisará ter Docker instalado em sua máquina.
 
-execute o comando 
+## Deployment
+
+Para instalar o projeto você precisa do **Docker** instalado em sua máquina
+
+
+Clone esse repositório
+```git
+  gh repo clone Angeloabrita/task-api
+```
+
+
+Crie uma alias da ``Sail``
 ```bash
-    ./vendor/bin/sail up
+    alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 ```
 
-## Criação de usuário
-Método **POST** ``http://127.0.0.1:80/api/auth/register``
-passe como parâmetro um **nome** **email** **password**
-Exemplo:
-```json
-{
-    "nome":"goku",
-    "email":"goku@gmail.com",
-    "password":"69696969"
-}
-
+Copie o modelo e gere uma nova ``.ENV``
+```bash
+cp .env.example .env
+sail artisan key:generate
 ```
-Se tudo der certo o retorno será o status 200 como o token
+
+Teste para ver se o Docker está rodando
+
+```bash
+docker --version
+```
+
+Você poderá gerar as images/cointener com o comando
+
+```bash
+    docker compose up
+```
+Execute as migrações
+```bash 
+    sail artisan migrate
+```
+
+
+## Documentação da API
+
+#### Autentificação e criação de usuario
+**Novo usuriario**
+```http
+  POST /api/auth/register
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `nome` `email` `password`     | `json` | **Obrigatório**. todos os parametros |
+
+Retorna `200 ok`
 
 ```json
     {
@@ -36,65 +67,98 @@ Se tudo der certo o retorno será o status 200 como o token
     "token": "1|1QCJBQSDKXIUxeeeF07qoxoSzWN2PiK448NZv8qa"
     }
 ```
-## SESSION LOGED
-Para acessar as rotas protegidas você precisará configurar a **Autorization** com o ``Brarer Token`` no Headers
 
-Com a session ative agora você poderá acessar as rotas protegidas pelo middleware do Sanctum
-
-### ```POST``
-- ``store`` - Esse método criar um registro na tabela task
-
-Esse método tem como fillable os campos ``title``, ``user_id``,``text`` você precisa inserir no body
-
-route ``http://127.0.0.1:80/api/store``
-  
-Se tudo der certo o retorn será o registro
-
-```json
-{
-    "id": 2,
-    "title": "Dragon ball z",
-    "user_id": 1,
-    "text": "fjdoifjapofijafpoaijfapoifjapfoiajfpaoifjapofijadoifj",
-    "created_at": "2022-12-05T04:35:11.000000Z",
-    "updated_at": "2022-12-05T04:35:11.000000Z"
-}
-
+**Login usuario**
+```http
+  POST /api/auth/login
 ```
 
-### ```PUT``  
-- ``update`` - Esse método atualiza um registro na tabela task
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `email` `password`     | `json` | **Obrigatório**. todos os parametros |
 
-route ``http://127.0.0.1:80/api/update/{id}``
-  
-Se tudo der certo o retorn, o registro atualizado
-
-```json
-{
-    "id": 2,
-    "title": "Dragon ball z",
-    "user_id": 1,
-    "text": "fjdoifjapofijafpoaijfapoifjapfoiajfpaoifjapofijadoifj",
-    "created_at": "2022-12-05T04:35:11.000000Z",
-    "updated_at": "2022-12-05T04:35:11.000000Z"
-}
-
-```
-
-### ```DEL``
-- ``destroy`` - Esse método irá deletar um registro na tabela task
-
-
-route ``http://127.0.0.1:80/api/delete/{id}``
-  
-Se tudo der certo o retorn será o registro
+Retorna `200 ok`
 
 ```json
-{
-    "status": "okay"
-}
-
+    {
+      "status" => true,
+      "message" => "User Logged In Successfully",
+      "token" =>  "1|1QCJBQSDKXIUxeeeF07qoxoSzWN2PiK448NZv8qa"
+    }
 ```
+
+
+
+
+
+### Acesso aos metodos **publicos** `GET`
+
+#### Retorna todas as task do banco
+```http
+  GET /api/tasks
+```
+###
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `-` | `json` | Retorna todas as taks no banco |
+
+#### retornar uma só task
+
+```http
+  GET /api/task/{id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `json` | **Obrigatório**. O ID da task que você quer |
+
+
+
+### Acesso aos metodos **privados** `GET` `PUT` `DELETE`
+Para acessar os metados privados o usuario precisa autentificar o token
+
+#### Cria uma task no banco
+```http
+  POST /api/store
+```
+###
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `token` `title` `text` | `json` |  **Obrigatório**. `user_id` |
+
+#### Update uma task
+
+```http
+  PUT /api/update/{id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`       | `json` | **Obrigatório**. O ID do item que você quer  atualizar |
+
+#### Delete uma task
+
+```http
+  DELETE /api/delete/{id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`       | `json` | **Obrigatório**. O ID do item que você quer deletar |
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
+## Authors
+
+- [@Angelo Abrita](https://www.linkedin.com/in/angelo-gabriel-tavares-abrita)
+
+``
 
 ## TO-DO
 - Criar as polices para validar se o usuário autenticado pode deletar ou atualizar task
