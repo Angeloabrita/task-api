@@ -28,7 +28,8 @@ Copie o modelo e gere uma nova ``.ENV``
 cp .env.example .env
 sail artisan key:generate
 ```
-O ``.ENV`` precisa conter esses atributos ```bash
+O ``.ENV`` precisa conter esses atributos
+```
 WWWGROUP=1000
 WWWUSER=1000 ``` caso contrário ocorrerá erro ao gerar os build com ``compose up``
 
