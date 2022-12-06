@@ -28,13 +28,10 @@ Copie o modelo e gere uma nova ``.ENV``
 cp .env.example .env
 sail artisan key:generate
 ```
-O ``.ENV`` precisa conter esses atributos
-```
+Adicione os atributos ```
 WWWGROUP=1000
-WWWUSER=1000 ``` caso contrário ocorrerá erro ao gerar os build com ``compose up``
+WWWUSER=1000``` no ``.ENV`` senão ocorrerá um erro ao rodar o ``compose up``
 
-
-senão ocorrerá erro ao gerar o 
 Teste para ver se o Docker está rodando
 
 ```bash
@@ -163,16 +160,4 @@ Para acessar os metados privados o usuario precisa autentificar o token
 ## Authors
 
 - [@Angelo Abrita](https://www.linkedin.com/in/angelo-gabriel-tavares-abrita)
-
-``
-
-## TO-DO
-- Criar as polices para validar se o usuário autenticado pode deletar ou atualizar task
-- Conectar ao front para primeiro teste
-
-
-
-
-
-
 
