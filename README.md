@@ -33,7 +33,7 @@ WWWGROUP=1000
 WWWUSER=1000 ``` caso contrário ocorrerá erro ao gerar os build com ``compose up``
 
 
-```senão ocorrerá erro ao gerar o 
+senão ocorrerá erro ao gerar o 
 Teste para ver se o Docker está rodando
 
 ```bash
