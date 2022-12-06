@@ -39,7 +39,7 @@ Route::middleware('auth:sanctum')->group(
 
         
         Route::post('store',[TaskController::class,'store'])->name('task.store');
-        Route::put('update/{id}',[TaskController::class,'update'])->name('task.store');
+        Route::put('update/{id}',[TaskController::class,'update'])->name('task.update');
         Route::delete('delete/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
 
     }
