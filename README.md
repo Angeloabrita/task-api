@@ -14,39 +14,47 @@ Para instalar o projeto você precisa do **Docker** instalado em sua máquina
 
 Clone esse repositório
 ```git
-  gh repo clone Angeloabrita/task-api
+  git clone Angeloabrita/task-api
 ```
 
-
-Crie uma alias da ``Sail``
-```bash
-    alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
-```
 
 Copie o modelo e gere uma nova ``.ENV``
 ```bash
 cp .env.example .env
-sail artisan key:generate
 ```
-Adicione os atributos ```
-WWWGROUP=1000
-WWWUSER=1000``` no ``.ENV`` senão ocorrerá um erro ao rodar o ``compose up``
+Abra o arquivo ``.ENV``edite e adicione uma senha ao ``DB_PASSWORD=``
+
 
 Teste para ver se o Docker está rodando
 
 ```bash
 docker --version
 ```
-
-Você poderá gerar as images/cointener com o comando
+Gere as images/cointener com o comando
 
 ```bash
-    docker compose up
+docker compose up -d
 ```
-Execute as migrações
+Remove o ``composer.lock`` e instale o composer
 ```bash 
-    sail artisan migrate
+docker-compose exec app rm -rf vendor composer.lock
+docker-compose exec app composer install
 ```
+Agora gere a base de dados usando o **artisan**
+
+```bash
+docker-compose exec app php artisan migrate
+
+```
+
+Se tudo der certo ao acessar a URL
+
+```
+GET /api/tasks
+```
+Você obterá um erro **404**, isso porque ainda não existe nenhuma tarefa criada.
+
+
 
 
 ## Documentação da API
