@@ -46,7 +46,8 @@ class LoginController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'data' => [ $user['name'],$user['email'] ]
             ], 200);
 
         } catch (\Throwable $th) {
@@ -58,13 +59,23 @@ class LoginController extends Controller
     }
 
     
-    public function logout()
+    public function logout(Request $request)
     {
-        //del all token place
-        //auth()->user()-delete();
-        //del current access token
-        auth()->user()->currentAccessToken()->delete();
+        
+        try{
 
-        return response()->json([],204);
+            auth()->logout();
+            
+            return response()->json([
+                'message' => 'Successfully logged out'
+            ]);
+        }
+        catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+       
     }
 }

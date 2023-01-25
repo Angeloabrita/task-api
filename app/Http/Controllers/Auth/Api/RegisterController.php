@@ -29,7 +29,7 @@ class RegisterController extends Controller
             if($validateUser->fails()){
                 return response()->json([
                     'status' => false,
-                    'message' => 'validation error',
+                    'message' => 'Erro de validação',
                     'errors' => $validateUser->errors()
                 ], 401);
             }
@@ -42,8 +42,9 @@ class RegisterController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'message' => 'Sucesso ao criar usuario',
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'data' => [$user['name'],$user['email'] ]
             ], 200);
 
         } catch (\Throwable $th) {

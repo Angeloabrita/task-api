@@ -24,27 +24,28 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(
      function ()
     {
-        Route::post('login', [LoginController::class, 'login'])->name('login.login');
-        
-        Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:sanctum')->name('login.logout');
+        Route::post('/login', [LoginController::class, 'login'])->name('login.login');
+        Route::post('/logout', [LoginController::class, 'logout'])->name('login.logout');
 
-        Route::post('register', [RegisterController::class, 'register'])->name('register.register');
+        Route::post('/register', [RegisterController::class, 'register'])->name('register.register');
 
     }
 );
 
 //authenticate route
-Route::middleware('auth:sanctum')->group(
+Route::prefix('auth')->middleware('auth:sanctum')->group(
     function(){
 
         
-        Route::post('store',[TaskController::class,'store'])->name('task.store');
-        Route::put('update/{id}',[TaskController::class,'update'])->name('task.update');
-        Route::delete('delete/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
+        Route::post('/store',[TaskController::class,'store'])->name('task.store');
+        Route::put('/update/{id}',[TaskController::class,'update'])->name('task.update');
+        Route::delete('/delete/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
+
+
 
     }
 );
 
 //public route 
-Route::get('/task',[TaskController::class,'index'])->name('task.index');
-Route::get('/task/{id}',[TaskController::class,'show'])->name('task.show');
+Route::get('/v1/task',[TaskController::class,'index'])->name('task.index');
+Route::get('/v1/task/{id}',[TaskController::class,'show'])->name('task.show');
