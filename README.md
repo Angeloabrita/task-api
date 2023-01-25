@@ -9,7 +9,7 @@
 
 ## Deployment
 
-Para instalar o projeto você precisa do **Docker** instalado em sua máquina
+Para instalar o projeto você precisa do **Docker** e **Dockercompose** instalado em sua máquina
 
 
 Clone esse repositório
@@ -17,11 +17,6 @@ Clone esse repositório
   gh repo clone Angeloabrita/task-api
 ```
 
-
-Crie uma alias da ``Sail``
-```bash
-    alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
-```
 
 Copie o modelo e gere uma nova ``.ENV``
 ```bash
@@ -47,111 +42,36 @@ Execute as migrações
 ```bash 
     sail artisan migrate
 ```
-
-
 ## Documentação da API
 
-#### Autentificação e criação de usuario
-**Novo usuriario**
-```http
-  POST /api/auth/register
-```
+Esta API é construída usando o framework Laravel e possui as seguintes rotas:
 
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
-| `nome` `email` `password`     | `json` | **Obrigatório**. todos os parametros |
+### Rotas de autenticação
 
-Retorna `200 ok`
+| Método | Endpoint | Descrição | Parâmetros |
+| --- | --- | --- | --- |
+| POST | /auth/login | Esta rota é usada para login de usuário | email: O email do usuário<br>senha: A senha do usuário |
+| POST | /auth/logout | Esta rota é usada para logout de usuário |  |
+| POST | /auth/register | Esta rota é usada para registro de usuário | nome: O nome do usuário<br>email: O email do usuário<br>senha: A senha do usuário<br>confirmação de senha: A confirmação da senha |
 
-```json
-    {
-    "status": true,
-    "message": "User Created Successfully",
-    "token": "1|1QCJBQSDKXIUxeeeF07qoxoSzWN2PiK448NZv8qa"
-    }
-```
+### Rotas protegidas
 
-**Login usuario**
-```http
-  POST /api/auth/login
-```
+Estas rotas são protegidas pelo middleware `auth:sanctum` e só podem ser acessadas por usuários autenticados:
 
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
-| `email` `password`     | `json` | **Obrigatório**. todos os parametros |
+| Método | Endpoint | Descrição | Parâmetros |
+| --- | --- | --- | --- |
+| POST | /auth/store | Esta rota é usada para armazenar uma tarefa | tarefa: A tarefa a ser armazenada |
+| PUT | /auth/update/{id} | Esta rota é usada para atualizar uma tarefa | tarefa: A tarefa a ser atualizada |
+| DELETE | /auth/delete/{id} | Esta rota é usada para excluir uma tarefa | id: O id da tarefa a ser excluída |
 
-Retorna `200 ok`
+### Rotas públicas
 
-```json
-    {
-      "status" => true,
-      "message" => "User Logged In Successfully",
-      "token" =>  "1|1QCJBQSDKXIUxeeeF07qoxoSzWN2PiK448NZv8qa"
-    }
-```
+| Método | Endpoint | Descrição |
+| --- | --- | --- |
+| GET | /v1/task | Esta rota é usada para buscar todas as tarefas |
+| GET | /v1/task/{id} | Esta rota é usada para buscar uma tarefa específica por id |
 
-
-
-
-
-### Acesso aos metodos **publicos** `GET`
-
-#### Retorna todas as task do banco
-```http
-  GET /api/tasks
-```
-###
-
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `-` | `json` | Retorna todas as taks no banco |
-
-#### retornar uma só task
-
-```http
-  GET /api/task/{id}
-```
-
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
-| `id`      | `json` | **Obrigatório**. O ID da task que você quer |
-
-
-
-### Acesso aos metodos **privados** `GET` `PUT` `DELETE`
-Para acessar os metados privados o usuario precisa autentificar o token
-
-#### Cria uma task no banco
-```http
-  POST /api/store
-```
-###
-
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `token` `title` `text` | `json` |  **Obrigatório**. `user_id` |
-
-#### Update uma task
-
-```http
-  PUT /api/update/{id}
-```
-
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
-| `id`       | `json` | **Obrigatório**. O ID do item que você quer  atualizar |
-
-#### Delete uma task
-
-```http
-  DELETE /api/delete/{id}
-```
-
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
-| `id`       | `json` | **Obrigatório**. O ID do item que você quer deletar |
-
-
+**Nota**: Todas as rotas retornam dados json.
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
