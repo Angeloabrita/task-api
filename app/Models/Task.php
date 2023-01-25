@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class Task extends Model
@@ -62,7 +63,13 @@ class Task extends Model
     
     public static function store($request)
     {
-        return self::create($request->all());
+        return self::create(['title' => $request['title'],
+                                    'text' => $request['text'],
+                                    'user_id' => Auth::user()->id
+                    ]);
+
+
+      
     }
     
      
