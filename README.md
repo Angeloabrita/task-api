@@ -14,34 +14,33 @@ Para instalar o projeto você precisa do **Docker** e **Dockercompose** instalad
 
 Clone esse repositório
 ```git
-  gh repo clone Angeloabrita/task-api
+  git clone Angeloabrita/task-api
 ```
 
 
 Copie o modelo e gere uma nova ``.ENV``
 ```bash
 cp .env.example .env
-sail artisan key:generate
 ```
-Adicione os atributos ```
-WWWGROUP=1000
-WWWUSER=1000``` no ``.ENV`` senão ocorrerá um erro ao rodar o ``compose up``
+Abra o arquivo ``.ENV``edite e adicione uma senha ao ``DB_PASSWORD=``
+
 
 Teste para ver se o Docker está rodando
 
 ```bash
 docker --version
 ```
-
-Você poderá gerar as images/cointener com o comando
+Gere as images/cointener com o comando
 
 ```bash
-    docker compose up
+docker compose up -d
 ```
-Execute as migrações
+Remove o ``composer.lock`` e instale o composer
 ```bash 
-    sail artisan migrate
+docker-compose exec app rm -rf vendor composer.lock
+docker-compose exec app composer install
 ```
+
 ## Documentação da API
 
 Esta API é construída usando o framework Laravel e possui as seguintes rotas:
