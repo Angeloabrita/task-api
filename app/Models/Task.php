@@ -24,10 +24,10 @@ class Task extends Model
     ];
 
      /**
-     * get 10 latest  task order by older.
+     * get all task order by older.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 
+     * @return \Illuminate\Http\ResponseJson
      */
     public static function indexTask() 
     {   
@@ -74,10 +74,28 @@ class Task extends Model
     
      
     public static function updateData($request, $id)
-    {
-        $post = self::find($id);
-        $post->update($request->all());
-        return $post;
+    {  
+        
+        $post = self::findOrFail($id);
+
+        if ($request->user()->cannot('update', $post)) {
+            abort(403);
+        }
+
+        //tryCatch for validation the update method
+        try{
+            $post->update($request->all());
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Task atualizada com sucesso'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error ao deletar a tarsk: ' . $e->getMessage()
+            ], 500);
+        }
+        
     }
     
      /**
@@ -87,9 +105,25 @@ class Task extends Model
      * @return \Illuminate\Http\Response
      */
     
-    public static function remove($id)
+    public static function remove($id, $user)
     {
-        return self::destroy($id);
+        $post = self::findOrFail($id);
+
+        if ($user->cannot('delete', $post)) {
+            abort(403);
+        }
+        try {
+        self::destroy($id);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Task deletada com sucesso'
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Error ao deletar a task: ' . $e->getMessage()
+        ], 500);
+    }
     }
 
     
