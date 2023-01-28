@@ -59,10 +59,15 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {   
-        
-        return Task::updateData($request, $id);
+        if(!auth()){
+            return  response()->json([
+                'status' => false,
+                'errors' => 'unautorized'
+            ], 401);
+        }
+    
+    return Task::updateData($request, $id);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -71,8 +76,13 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        return Task::destroy($id)->response()->json([
-            "status" => "deleted",
-        ], 200);
+        if(!auth()){
+            return  response()->json([
+                'status' => false,
+                'errors' => 'unautorized'
+            ], 401);
+        }
+        
+        return Task::remove($id, auth()->user());
     }
 }

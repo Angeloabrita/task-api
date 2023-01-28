@@ -36,8 +36,9 @@ Route::prefix('auth')->group(
 Route::prefix('auth')->middleware('auth:sanctum')->group(
     function(){
 
-        
         Route::post('/store',[TaskController::class,'store'])->name('task.store');
+
+        //only user creator from post can delete or edit their task
         Route::put('/update/{id}',[TaskController::class,'update'])->name('task.update');
         Route::delete('/delete/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
 
